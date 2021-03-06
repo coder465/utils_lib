@@ -96,7 +96,7 @@ public class OboloiVPN extends Activity {
         }
     }
 
-    private boolean stopVpn() {
+    public boolean stopVpn() {
         try {
             vpnThread.stop();
             //disconnected status
