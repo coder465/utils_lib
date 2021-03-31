@@ -125,10 +125,16 @@ public class OpenVPNThread implements Runnable {
     }
 
     public static boolean stop(){
-        if (mService == null) return false;
-        if (mProcess == null) return false;
-        mService.openvpnStopped();
-        mProcess.destroy();
+        try {
+            mService.openvpnStopped();
+        } catch (Exception e) {
+            Log.e("OpenVPN", "VPN is already stopped");
+        }
+        try {
+            mProcess.destroy();
+        } catch (Exception e) {
+            Log.e("OpenVPN", "VPN is already stopped");
+        }
         return true;
     }
 
