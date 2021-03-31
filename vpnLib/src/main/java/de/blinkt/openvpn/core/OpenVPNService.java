@@ -83,7 +83,7 @@ public class OpenVPNService extends VpnService implements StateListener, Callbac
     public static final String NOTIFICATION_CHANNEL_BG_ID = "openvpn_bg";
     public static final String NOTIFICATION_CHANNEL_NEWSTATUS_ID = "openvpn_newstat";
     public static final String NOTIFICATION_CHANNEL_USERREQ_ID = "openvpn_userreq";
-    public final static String MY_PACKAGE_NAME = "com.android.chrome"; // your package name
+    public final static String MY_PACKAGE_NAME = "com.hala.halavpn"; // your package name
 
     public static final String VPNSERVICE_TUN = "vpnservice-tun";
     public final static String ORBOT_PACKAGE_NAME = "org.torproject.android";
