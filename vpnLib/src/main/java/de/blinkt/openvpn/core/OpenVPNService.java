@@ -612,7 +612,6 @@ public class OpenVPNService extends VpnService implements StateListener, Callbac
             }
         }).start();
 
-
         ProfileManager.setConnectedVpnProfile(this, mProfile);
         VpnStatus.setConnectedVPNProfile(mProfile.getUUIDString());
 

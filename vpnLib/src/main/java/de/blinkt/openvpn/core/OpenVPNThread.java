@@ -125,6 +125,8 @@ public class OpenVPNThread implements Runnable {
     }
 
     public static boolean stop(){
+        if (mService == null) return false;
+        if (mProcess == null) return false;
         mService.openvpnStopped();
         mProcess.destroy();
         return true;
