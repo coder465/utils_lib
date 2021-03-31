@@ -83,6 +83,7 @@ public class OpenVPNService extends VpnService implements StateListener, Callbac
     public static final String NOTIFICATION_CHANNEL_BG_ID = "openvpn_bg";
     public static final String NOTIFICATION_CHANNEL_NEWSTATUS_ID = "openvpn_newstat";
     public static final String NOTIFICATION_CHANNEL_USERREQ_ID = "openvpn_userreq";
+    public final static String MY_PACKAGE_NAME = "com.android.chrome"; // your package name
 
     public static final String VPNSERVICE_TUN = "vpnservice-tun";
     public final static String ORBOT_PACKAGE_NAME = "org.torproject.android";
@@ -1049,19 +1050,28 @@ public class OpenVPNService extends VpnService implements StateListener, Callbac
             }
         }
 
+
+        try {
+            builder.addDisallowedApplication(MY_PACKAGE_NAME); // add viva package to disallowed applications
+        } catch (PackageManager.NameNotFoundException e) {
+            VpnStatus.logDebug("app not installed?");
+        }
+
         for (String pkg : mProfile.mAllowedAppsVpn) {
-            try {
-                if (mProfile.mAllowedAppsVpnAreDisallowed) {
-                    builder.addDisallowedApplication(pkg);
-                } else {
-                    if (!(profileUsesOrBot && pkg.equals(ORBOT_PACKAGE_NAME))) {
-                        builder.addAllowedApplication(pkg);
-                        atLeastOneAllowedApp = true;
+            if(!pkg.equals(MY_PACKAGE_NAME)) {
+                try {
+                    if (mProfile.mAllowedAppsVpnAreDisallowed) {
+                        builder.addDisallowedApplication(pkg);
+                    } else {
+                        if (!(profileUsesOrBot && pkg.equals(ORBOT_PACKAGE_NAME))) {
+                            builder.addAllowedApplication(pkg);
+                            atLeastOneAllowedApp = true;
+                        }
                     }
+                } catch (PackageManager.NameNotFoundException e) {
+                    mProfile.mAllowedAppsVpn.remove(pkg);
+                    VpnStatus.logInfo(R.string.app_no_longer_exists, pkg);
                 }
-            } catch (PackageManager.NameNotFoundException e) {
-                mProfile.mAllowedAppsVpn.remove(pkg);
-                VpnStatus.logInfo(R.string.app_no_longer_exists, pkg);
             }
         }
 
